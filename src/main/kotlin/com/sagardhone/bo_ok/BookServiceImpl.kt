@@ -1,37 +1,73 @@
 package com.sagardhone.library_management.bo_ok
-
+import exception.CustomException
+import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
+
 
 @Service
 class BookServiceImpl(var bookRepository: BookRepository): BookService {
 
-    val stringToDateFormatter = SimpleDateFormat("dd-MMM-yyyy")
-
     override fun getAllBooks(): List<Bo_ok> = bookRepository.findAll()
 
-    override fun getBookById(bookId: String): Bo_ok = bookRepository.findById(bookId).orElseThrow({RuntimeException("Book not found.")})
+    override fun getBookById(bookId: String): Bo_ok {
+        val book: Optional<Bo_ok> = bookRepository.findById(bookId)
 
-    override fun addBook(book: Bo_ok): Bo_ok {
-        println("BOOK DETAILS : "+book)
-        println("DATE CONV : "+book.publicationDate)
+        if (book.isPresent()) {
+            return book.get()
+        } else {
+            throw CustomException(HttpStatus.NOT_FOUND.value(),"Book id '$bookId' not exist.!")
+        }
+
+    }
+
+    @Transactional
+    override fun addBook(@Valid book: Bo_ok): Bo_ok {
+        val foundBookName:Boolean = bookRepository.existsByName(book.name)
+
+        if (foundBookName == true){
+            throw CustomException(HttpStatus.IM_USED.value(),"${book.name} already exist name should be unique.!")
+        }
+        book.id = book.name
+
         return bookRepository.save(book)
+
     }
 
     override fun updateBookDetailsById(bookId: String, book: Bo_ok): Bo_ok {
-        val oldDetails =  bookRepository.findById(bookId).orElseThrow({RuntimeException("Book not found.")})
-        oldDetails.name = book.name
-        oldDetails.pageCount = book.pageCount
-        oldDetails.price = book.price
-        oldDetails.publicationDate = book.publicationDate
-        return bookRepository.save(oldDetails)
+
+        val oldDetails: Optional<Bo_ok> = bookRepository.findById(bookId)
+
+        if (oldDetails.isPresent()) {
+            val nameExist:Boolean = bookRepository.existsByNameAndIdNot(bookId,book.name)
+
+            if (nameExist == true){
+                throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"'${book.name}\' already exist name should be unique.!")
+            }
+            val existingBook = oldDetails.get()
+            existingBook.name = book.name
+            existingBook.pageCount = book.pageCount
+            existingBook.price = book.price
+            existingBook.publicationDate = book.publicationDate
+            return bookRepository.save(existingBook)
+        } else {
+            throw CustomException(HttpStatus.NOT_FOUND.value(),"Book id '$bookId' not exist.!")
+        }
+
     }
 
     override fun removeBookById(bookId: String): String {
-        return "Book details removed for Book Id : $bookId"
+
+        val book: Optional<Bo_ok> = bookRepository.findById(bookId)
+
+        if (book.isPresent()) {
+            return "Book details removed for Book Id : $bookId"
+        } else {
+            throw CustomException(HttpStatus.NOT_FOUND.value(),"Book id '$bookId' not exist.!")
+        }
+
     }
 
     override fun removeMultipleBooksByIds(bookIds: List<String>): String {
