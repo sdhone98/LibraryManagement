@@ -1,5 +1,7 @@
 package com.sagardhone.library_management.bo_ok
-import com.sagardhone.bo_ok.validateBookObject
+import com.sagardhone.bo_ok.*
+import exception.CustomException
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -21,11 +23,25 @@ class BookController(var bookService: BookService) {
     }
 
     @PutMapping("/{bookId}")
-    fun updateBookDetails(@PathVariable bookId: String, @RequestBody book: Bo_ok) = bookService.updateBookDetailsById(bookId, book)
+    fun updateBookDetails(@PathVariable bookId: String, @RequestBody book: Bo_ok):Bo_ok {
+
+        /* VALIDATE AND CHECK BOOK NAME CORRECT OR NOT */
+        validateBookObject(book)
+
+        return bookService.updateBookDetailsById(bookId, book)
+    }
 
     @DeleteMapping("/{bookId}")
-    fun removeBookDetailsById(@PathVariable bookId: String) = bookService.removeBookById(bookId)
+    fun removeBookDetailsById(@PathVariable bookId: String):String{
+        /* VALIDATE AND CHECK BOOK IDS */
+        if (!bookId.startsWith('B')) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Given book id $bookId is invalid.!") else return bookService.removeBookById(bookId)
+    }
 
     @DeleteMapping()
-    fun removeMultipleBookDetailsById(@RequestBody bookId: List<String>) = bookService.removeMultipleBooksByIds(bookId)
+    fun removeMultipleBookDetailsById(@RequestBody bookIds: List<String>):String {
+
+        /* VALIDATE AND CHECK BOOK IDS */
+        checkBookIds(bookIds)
+        return bookService.removeMultipleBooksByIds(bookIds)
+    }
 }

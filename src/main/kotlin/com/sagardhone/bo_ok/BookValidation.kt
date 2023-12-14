@@ -11,28 +11,18 @@ class BookValidation {
 
 fun checkBookName(bookName:String){
 
-    if (bookName.isEmpty()){
-        throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Book name shouldn't be empty.!")
-    }
+    if (bookName.isEmpty()) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Book name shouldn't be empty.!")
 
-    if (bookName.isNullOrBlank()){
-        throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Book name shouldn't be empty.!")
-    }
+    if (bookName.isNullOrBlank()) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Book name shouldn't be empty.!")
 
-    if (!"^[A-Za-z0-9 -]*$".toRegex().matches(bookName)){
-        throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Book name should be alphanumeric value.!")
-    }
+    if (!"^[A-Za-z0-9 -]*$".toRegex().matches(bookName)) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Book name should be alphanumeric value.!")
 }
 
 fun checkBookPageCount(bookPageCount:Int){
 
-    if (bookPageCount <= 0 ){
-        throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Page count should be greater than zero.!")
-    }
+    if (bookPageCount <= 0 ) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Page count should be greater than zero.!")
 
-    if (bookPageCount >= 1000){
-        throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Page count should be under 1000.!")
-    }
+    if (bookPageCount >= 1000) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Page count should be under 1000.!")
 }
 
 
@@ -40,6 +30,13 @@ fun checkBookPrice(bookPrice:Double) {
 
     if (bookPrice >= 10000 ){
         throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Book price under 10,000.!")
+    }
+}
+
+fun checkBookIds(bookIds:List<String>) {
+
+    for (id in bookIds){
+        if (!id.startsWith('B')) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Given book id $id is invalid.!")
     }
 }
 

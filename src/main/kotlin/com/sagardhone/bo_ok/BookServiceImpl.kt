@@ -71,7 +71,13 @@ class BookServiceImpl(var bookRepository: BookRepository): BookService {
     }
 
     override fun removeMultipleBooksByIds(bookIds: List<String>): String {
-        val foundData = bookRepository.deleteAllByIdInBatch(bookIds)
-        return "Book details removed for these Book Ids : $bookIds"
+
+        val foundIds:List<String> = bookRepository.availableBookIds(bookIds)
+
+        if (foundIds.isEmpty()) throw CustomException(HttpStatus.NOT_FOUND.value(),"Given book ids $bookIds not exist.!")
+
+        bookRepository.deleteAllByIdInBatch(foundIds)
+
+        return "Book details removed for these Book Ids : $foundIds, \nthese ids not available ${bookIds.toSet() - foundIds.toSet()}."
     }
 }
