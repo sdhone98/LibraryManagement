@@ -1,4 +1,5 @@
 package com.sagardhone.library_management.student
+import com.fasterxml.jackson.annotation.JsonBackReference
 import com.sagardhone.department.Department
 import jakarta.persistence.*
 import jakarta.validation.constraints.Min
@@ -26,6 +27,7 @@ data class Student (
     var year: Int,
 
     @ManyToOne(cascade = [CascadeType.ALL])
+    @JsonBackReference
     var department: Department,
 
 
@@ -37,7 +39,6 @@ data class Student (
         fName:String,
         lName:String,
         age:Int,
-        year: Int,
-        department: Department): this("1",fName, lName, age, year, department)
+        year: Int): this("1",fName, lName, age, year, Department())
 
 }
