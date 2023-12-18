@@ -3,11 +3,9 @@ package com.sagardhone.library_management.bo_ok
 import com.fasterxml.jackson.annotation.JsonFormat
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import jakarta.validation.constraints.NotBlank
-import org.hibernate.annotations.GenericGenerator
 import java.util.Date
 
 @Entity
