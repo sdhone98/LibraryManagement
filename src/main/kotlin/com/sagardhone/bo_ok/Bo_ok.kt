@@ -1,11 +1,9 @@
 package com.sagardhone.library_management.bo_ok
 
 import com.fasterxml.jackson.annotation.JsonFormat
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
+import org.hibernate.annotations.GenericGenerator
 import java.util.Date
 
 @Entity
@@ -13,6 +11,8 @@ import java.util.Date
 data class Bo_ok (
 
     @Id
+    @GeneratedValue(generator = "book-custom-id", strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "book-custom-id", strategy = "com.sagardhone.customIdGenerator.BookCustomIdGenerator")
     @Column(name = "ID", nullable = false, updatable = false, unique = true)
     var id: String,
 
