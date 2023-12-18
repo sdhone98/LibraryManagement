@@ -2,12 +2,15 @@ package com.sagardhone.department
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.sagardhone.library_management.student.Student
 import jakarta.persistence.*
+import org.hibernate.annotations.GenericGenerator
 
 @Entity
 @Table(name = "department")
 data class Department(
 
     @Id
+    @GeneratedValue(generator = "department-custom-id", strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "department-custom-id", strategy = "com.sagardhone.customIdGenerator.DepartmentCustomIdGenerator")
     @Column(name = "ID", nullable = false, updatable = false)
     var id: String,
 
