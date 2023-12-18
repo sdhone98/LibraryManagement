@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference
 import com.sagardhone.department.Department
 import jakarta.persistence.*
 import jakarta.validation.constraints.Min
+import org.hibernate.annotations.GenericGenerator
 
 
 @Entity
@@ -10,6 +11,8 @@ import jakarta.validation.constraints.Min
 data class Student (
 
     @Id
+    @GeneratedValue(generator = "student-custom-id", strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "student-custom-id", strategy = "com.sagardhone.customIdGenerator.StudentCustomIdGenerator")
     @Column(name = "ID", nullable = false, updatable = false)
     var id: String,
 
