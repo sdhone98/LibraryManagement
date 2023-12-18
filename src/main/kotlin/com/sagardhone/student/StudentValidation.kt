@@ -31,9 +31,9 @@ fun checkStudentAcademicYear(studentYear:Int){
     if (studentYear >= 4) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Maximum academic year is 4")
 }
 
-fun checkDepartment(studentDepartment:String){
-    if (!studentDepartment.all { it.isLetter() }) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Invalid department name.!")
-}
+//fun checkDepartment(depart:String){
+//    if (!studentDepartment.all { it.isLetter() }) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Invalid department name.!")
+//}
 
 fun checkStudentIds(studentIds:List<String>) {
 
@@ -45,5 +45,4 @@ fun checkStudentObject(student:Student){
     checkStudentName(student.firstName, student.lastName)
     checkStudentAge(student.age)
     checkStudentAcademicYear(student.year)
-    checkDepartment(student.department)
 }
