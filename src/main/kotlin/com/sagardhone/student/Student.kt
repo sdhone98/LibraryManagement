@@ -1,20 +1,14 @@
 package com.sagardhone.library_management.student
-
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Id
+import com.sagardhone.department.Department
+import jakarta.persistence.*
 import jakarta.validation.constraints.Min
-import org.hibernate.annotations.GenericGenerator
+
 
 @Entity
-@GenericGenerator(
-    name = "custom-id",
-    strategy = "com.sagardhone.library_management.id_generator.CustomIdGenerator"
-)
+@Table(name = "student")
 data class Student (
+
     @Id
-    @GeneratedValue(generator = "custom-id")
     @Column(name = "ID", nullable = false, updatable = false)
     var id: String,
 
@@ -31,15 +25,19 @@ data class Student (
     @Column(name = "ACADEMIC_YEAR", nullable = false)
     var year: Int,
 
-    @Column(name = "DEPARTMENT", length = 100, nullable = false)
-    var department: String,
-){
+    @ManyToOne(cascade = [CascadeType.ALL])
+    var department: Department,
+
+
+
+    ){
+
+    constructor() : this("", "", "", 0, 0,Department())
     constructor(
         fName:String,
         lName:String,
         age:Int,
         year: Int,
-        department: String): this("1",fName,lName,age,year,department)
+        department: Department): this("1",fName, lName, age, year, department)
 
-    constructor():this("0","","",0,0,"")
 }
