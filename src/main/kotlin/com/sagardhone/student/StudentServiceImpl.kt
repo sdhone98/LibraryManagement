@@ -28,7 +28,6 @@ class StudentServiceImpl(var studentRepository: StudentRepository):StudentServic
             oldDetails.lastName = student.lastName
             oldDetails.age = student.age
             oldDetails.year = student.year
-            oldDetails.department = student.department
             return studentRepository.save(oldDetails)
         }else{
             throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Given student id $studentId not exist.!")
