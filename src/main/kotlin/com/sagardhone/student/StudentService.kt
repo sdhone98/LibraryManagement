@@ -13,4 +13,6 @@ interface StudentService {
     fun removeStudentDetailsById(studentId: String): String
 
     fun removeMultipleStudentDetailsByIds(studentIds: List<String>): String
+    fun getAllStudentsByDepartment(departmentId: String): List<Student>
+
 }
