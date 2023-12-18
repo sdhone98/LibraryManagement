@@ -4,13 +4,11 @@ import com.sagardhone.library_management.student.Student
 import exception.CustomException
 import org.springframework.http.HttpStatus
 
-class StudentValidation {
-}
 
 fun checkStudentName(firstName:String, lastName:String){
-    if (firstName.isNullOrBlank() or firstName.isEmpty()) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Student first name should not be empty or blank.!")
+    if (firstName.isBlank() or firstName.isEmpty()) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Student first name should not be empty or blank.!")
 
-    if (lastName.isNullOrBlank() or firstName.isEmpty()) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Student last name should not be empty or blank.!")
+    if (lastName.isBlank() or firstName.isEmpty()) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Student last name should not be empty or blank.!")
 
     if(!firstName.all { it.isLetter() }) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Student first name should be in alphabets only.!")
 
