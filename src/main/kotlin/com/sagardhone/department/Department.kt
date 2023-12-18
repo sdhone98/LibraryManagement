@@ -1,4 +1,5 @@
 package com.sagardhone.department
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.sagardhone.library_management.student.Student
 import jakarta.persistence.*
 
@@ -16,7 +17,8 @@ data class Department(
     @Column(name = "DEPARTMENT CODE", length = 100, nullable = false)
     var code:String,
 
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department", cascade = [CascadeType.ALL])
+    @JsonManagedReference
     var students: List<Student> = emptyList()
 
 ){
