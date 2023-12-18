@@ -1,4 +1,5 @@
 package com.sagardhone.department
+import com.sagardhone.library_management.student.Student
 import jakarta.persistence.*
 
 @Entity
@@ -15,7 +16,13 @@ data class Department(
     @Column(name = "DEPARTMENT CODE", length = 100, nullable = false)
     var code:String,
 
+    @OneToMany(mappedBy = "department")
+    var students: List<Student> = emptyList()
+
 ){
 
-    constructor(): this("","","")
+    constructor(): this("","","", emptyList())
+    constructor(
+        name: String,
+        code: String): this("","","", emptyList())
 }
