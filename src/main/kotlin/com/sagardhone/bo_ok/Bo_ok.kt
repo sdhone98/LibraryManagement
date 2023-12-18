@@ -11,14 +11,10 @@ import org.hibernate.annotations.GenericGenerator
 import java.util.Date
 
 @Entity
-@GenericGenerator(
-    name = "custom-id",
-    strategy = "com.sagardhone.library_management.id_generator.CustomIdBookIdGenerator"
-)
 @Table(name = "books")
 data class Bo_ok (
+
     @Id
-    @GeneratedValue(generator = "custom-id")
     @Column(name = "ID", nullable = false, updatable = false, unique = true)
     var id: String,
 
