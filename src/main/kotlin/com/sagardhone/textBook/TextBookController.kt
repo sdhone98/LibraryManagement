@@ -30,9 +30,9 @@ class TextBookController (var textBookService: TextBookService) {
     }
 
     @DeleteMapping("/{textBookId}")
-    fun removeBookDetailsById(@PathVariable bookId: String):String{
+    fun removeBookDetailsById(@PathVariable textBookId: String):String{
         /* VALIDATE AND CHECK BOOK IDS */
-        if (!bookId.startsWith('B')) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Given book id $bookId is invalid.!") else return textBookService.removeBookById(bookId)
+        if (!textBookId.startsWith('B')) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Given book id $textBookId is invalid.!") else return textBookService.removeBookById(textBookId)
     }
 
     @DeleteMapping()
