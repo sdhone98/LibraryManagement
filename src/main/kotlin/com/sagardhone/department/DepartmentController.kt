@@ -4,11 +4,29 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/department")
 class DepartmentController(var departmentService: DepartmentService) {
-
     @GetMapping
     fun getAllDepartments():List<Department> = departmentService.getAllDepartments()
+
+    @GetMapping("/{departmentId}")
+    fun getDepartmentBYId(@PathVariable departmentId: String):Department {
+        /* VALIDATE DEPARTED ID*/
+
+        checkDepartmentId(departmentId)
+        return departmentService.getDepartmentBYId(departmentId)
+    }
+
     @PostMapping
-    fun addDepartment(@RequestBody department: Department): Department = departmentService.addDepartment(department)
-    @DeleteMapping
-    fun removeDepartment(@PathVariable departmentId: String):String = departmentService.removeDepartment(departmentId)
+    fun addDepartment(@RequestBody department: Department): Department {
+        /* VALIDATE DEPARTED OBJECT*/
+        checkDepartmentObject(department)
+
+        return departmentService.addDepartment(department)
+    }
+
+    @DeleteMapping("/{departmentId}")
+    fun removeDepartment(@PathVariable departmentId: String): String {
+        /* VALIDATE DEPARTED ID*/
+        checkDepartmentId(departmentId)
+        return departmentService.removeDepartment(departmentId)
+    }
 }

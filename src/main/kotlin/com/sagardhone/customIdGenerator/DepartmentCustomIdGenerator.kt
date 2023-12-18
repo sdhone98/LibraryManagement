@@ -30,6 +30,6 @@ class DepartmentCustomIdGenerator : IdentifierGenerator {
             throw HibernateException("Unable to generate ID", e)
         }
 
-        return "$prefix+1"
+        return prefix+"1"
     }
 }
