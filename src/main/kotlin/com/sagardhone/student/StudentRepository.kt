@@ -1,4 +1,5 @@
-package com.sagardhone.library_management.student
+package com.sagardhone.student
+import com.sagardhone.library_management.student.Student
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
