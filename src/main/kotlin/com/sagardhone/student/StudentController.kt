@@ -1,6 +1,8 @@
 package com.sagardhone.library_management.student
 
+import com.sagardhone.order.OrderService
 import com.sagardhone.student.*
+import com.sagardhone.textBook.TextBook
 import exception.CustomException
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -9,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/student")
-class StudentController(var studentService: StudentService) {
+class StudentController(var studentService: StudentService, var orderService: OrderService) {
 
     @GetMapping
     fun getAllStudentDetails(): List<Student> = studentService.getAllStudentDetails()
@@ -49,5 +51,9 @@ class StudentController(var studentService: StudentService) {
 
         return studentService.removeMultipleStudentDetailsByIds(studentIds)
     }
+
+    @GetMapping("/{studentId}/books")
+    fun getStudentBorrowedBooksDetailsByStudentId(@PathVariable studentId: String): List<TextBook> = orderService.getStudentBorrowedBooksDetailsByStudentId(studentId)
+
 
 }
