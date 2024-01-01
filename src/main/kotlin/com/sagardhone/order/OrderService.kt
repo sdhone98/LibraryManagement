@@ -13,9 +13,9 @@ interface OrderService {
 
     fun returnTextBook(studentId:String, textBookId: String): String
 
-    fun getStudentOwnBooksDetails(studentId: String):List<Order>
+    fun getStudentBorrowedBooksDetailsByStudentId(studentId: String):List<TextBook>
 
-    fun getStudentDetailsByBookId(textBookId: String):List<Student>
+    fun getBookBorrowedStudentDetailsByBookId(textBookId: String):List<Student>
 
-    fun remainingQuantityOfBookById(textBookId: String): Order
+    fun remainingQuantityOfBookById(textBookId: String): Int
 }
