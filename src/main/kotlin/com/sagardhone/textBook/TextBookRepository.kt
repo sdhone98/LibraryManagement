@@ -13,4 +13,7 @@ interface TextBookRepository: JpaRepository<TextBook, String> {
     @Query("SELECT id FROM TextBook WHERE id IN :textBooksIds")
     fun availableBookIds(textBooksIds: List<String>): List<String>
 
+    @Query("SELECT b.quantity FROM TextBook b WHERE b.id = :textBookId")
+    fun getQuantityByTextBookId(textBookId: String): Int
+
 }
