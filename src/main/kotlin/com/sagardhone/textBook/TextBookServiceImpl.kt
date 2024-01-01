@@ -1,4 +1,6 @@
 package com.sagardhone.textBook
+import com.sagardhone.library_management.student.Student
+import com.sagardhone.order.OrderRepository
 import exception.CustomException
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -7,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
-class TextBookServiceImpl(var textBookRepository: TextBookRepository):TextBookService {
+class TextBookServiceImpl(var textBookRepository: TextBookRepository, var orderRepository: OrderRepository):TextBookService {
 
     override fun getAllBooks(): List<TextBook> = textBookRepository.findAll()
 
@@ -67,14 +69,16 @@ class TextBookServiceImpl(var textBookRepository: TextBookRepository):TextBookSe
 
     }
 
-    override fun removeMultipleBooksByIds(textBookId: List<String>): String {
+    override fun removeMultipleBooksByIds(textBookIds: List<String>): String {
 
-        val foundIds:List<String> = textBookRepository.availableBookIds(textBookId)
+        val foundIds:List<String> = textBookRepository.availableBookIds(textBookIds)
 
-        if (foundIds.isEmpty()) throw CustomException(HttpStatus.NOT_FOUND.value(),"Given book ids $textBookId not exist.!")
+        if (foundIds.isEmpty()) throw CustomException(HttpStatus.NOT_FOUND.value(),"Given book ids $textBookIds not exist.!")
 
         textBookRepository.deleteAllByIdInBatch(foundIds)
 
-        return "Book details removed for these Book Ids : $foundIds, \nthese ids not available ${textBookId.toSet() - foundIds.toSet()}."
+        return "Book details removed for these Book Ids : $foundIds, \nthese ids not available ${textBookIds.toSet() - foundIds.toSet()}."
     }
+
+    override fun getStudentBorrowedBooksDetails(textBookId: String): List<Student> = orderRepository.getStudentDetailsByTextBookId(textBookId)
 }
