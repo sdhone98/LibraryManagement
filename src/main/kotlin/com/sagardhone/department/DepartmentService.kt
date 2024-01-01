@@ -1,5 +1,7 @@
 package com.sagardhone.department
 
+import com.sagardhone.library_management.student.Student
+
 
 interface DepartmentService {
 
@@ -9,4 +11,6 @@ interface DepartmentService {
     fun addDepartment(department: Department): Department
 
     fun removeDepartment(departmentId:String):String
+
+    fun getStudentDetailsByDepartmentId(departmentId: String): List<Student>
 }
