@@ -1,5 +1,6 @@
 package com.sagardhone.library_management.student
 
+import com.sagardhone.student.StudentRepository
 import exception.CustomException
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
