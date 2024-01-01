@@ -42,4 +42,7 @@ class TextBookController (var textBookService: TextBookService) {
         checkBookIds(textBookId)
         return textBookService.removeMultipleBooksByIds(textBookId)
     }
+
+    @GetMapping("/{textBookId}/students")
+    fun getStudentBorrowedBooksDetails(@PathVariable textBookId: String)= textBookService.getStudentBorrowedBooksDetails(textBookId)
 }
