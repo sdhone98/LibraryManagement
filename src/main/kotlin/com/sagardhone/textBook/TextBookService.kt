@@ -1,5 +1,7 @@
 package com.sagardhone.textBook
 
+import com.sagardhone.library_management.student.Student
+
 interface TextBookService {
 
     fun getAllBooks(): List<TextBook>
@@ -13,4 +15,6 @@ interface TextBookService {
     fun removeBookById(textBookId: String): String
 
     fun removeMultipleBooksByIds(textBookIds: List<String>): String
+
+    fun getStudentBorrowedBooksDetails(textBookId: String):List<Student>
 }
