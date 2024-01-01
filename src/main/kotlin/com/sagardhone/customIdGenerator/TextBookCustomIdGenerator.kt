@@ -13,7 +13,6 @@ class TextBookCustomIdGenerator : IdentifierGenerator {
     override fun generate(session: SharedSessionContractImplementor, `object`: Any): Serializable {
         val prefix = "B_"
         val query = "SELECT MAX(id) FROM TextBook"
-        println("QUERY : >>>>>>>>>>>>>>"+query)
         val connection: Connection = session.jdbcConnectionAccess.obtainConnection()
 
         try {
