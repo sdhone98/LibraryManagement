@@ -1,4 +1,5 @@
 package com.sagardhone.department
+import com.sagardhone.library_management.student.Student
 import com.sagardhone.library_management.student.StudentService
 import exception.CustomException
 import org.springframework.http.HttpStatus
@@ -33,4 +34,6 @@ class DepartmentServiceImpl(var departmentRepository: DepartmentRepository, priv
         departmentRepository.deleteById(departmentId)
         return "${foundDept.get().name} Department has been removed"
     }
+
+    override fun getStudentDetailsByDepartmentId(departmentId: String): List<Student> = getDepartmentBYId(departmentId).students
 }
