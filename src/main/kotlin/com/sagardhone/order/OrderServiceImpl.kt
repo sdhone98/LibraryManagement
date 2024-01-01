@@ -1,15 +1,15 @@
 package com.sagardhone.order
 
 import com.sagardhone.library_management.student.Student
-import com.sagardhone.library_management.student.StudentRepository
+import com.sagardhone.student.StudentRepository
 import com.sagardhone.textBook.TextBook
 import com.sagardhone.textBook.TextBookRepository
 import exception.CustomException
 import org.springframework.http.HttpStatus
-import java.text.SimpleDateFormat
+import org.springframework.stereotype.Service
 import java.util.*
 
-
+@Service
 class OrderServiceImpl(var orderRepository: OrderRepository, var textBookRepository: TextBookRepository, var studentRepository: StudentRepository):OrderService {
     override fun getAllOrderDetails(): List<Order> = orderRepository.findAll()
 
@@ -28,43 +28,71 @@ class OrderServiceImpl(var orderRepository: OrderRepository, var textBookReposit
         if (!foundStudent.isPresent) throw CustomException(HttpStatus.NOT_FOUND.value(),"Given student id $studentId not exist.!")
 
 
+        /* CHECK BOOK ID VALID OR NOT*/
+        val foundBook:Optional<TextBook> = textBookRepository.findById(textBookId)
 
-        /* CHECK HOW MUCH BOOKS OWN BY STUDENT*/
-        val foundStudentData:List<Order> = orderRepository.getAllOrdersByStudentId(studentId)
+        if (!foundBook.isPresent) throw CustomException(HttpStatus.NOT_FOUND.value(),"Book id '$textBookId' not exist.!")
 
-        if (foundStudentData.count() > 3 ) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Student already owned 3 books you are not allowed to borrow new book.!")
+        /* CHECK BOOK AVAILABLE OR NOT */
+
+        if (foundBook.get().quantity <= 0) throw CustomException(HttpStatus.NOT_FOUND.value(),"'${foundBook.get().name}' is currently out of stock. please try later.!")
+
+
+        /*CHECK BOOK LIMIT*/
+        if (orderRepository.getCountOfOrdersByStudentId(studentId) >= 3) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(), "You cannot borrow more that 3 book at one time.!")
+
 
         /* CHECK SAME BOOK OR NOT*/
-        foundStudentData.forEach {
-            if (it.textbook.equals(textBookId)) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Given book is already borrowed by student.!")
-        }
+        val foundStudentData:List<Order> = orderRepository.getAllOrdersByStudentId(studentId)
+
+        val isBookAlreadyBorrowed:Boolean = foundStudentData.any { it.textbook.id == textBookId }
+
+        if (isBookAlreadyBorrowed) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(), "Given book is already borrowed by the student!")
 
 
         /* CHECK HOW MUCH BOOK EXIST OR NOT*/
         val foundBookData:Optional<TextBook> = textBookRepository.findById(textBookId)
 
         if (!foundBookData.isPresent) throw CustomException(HttpStatus.NOT_FOUND.value(),"Given book id $textBookId not exist.!")
-        val order:Order = Order()
 
-        order.orderDateTime = java.util.Date()
-        order.student = foundStudent.get()
-        order.student = foundStudent.get()
-        return Order()
+        /* CREATE A NEW ORDER */
+        val newOrder = Order(foundStudent.get(), foundBookData.get(), Date())
+        orderRepository.save(newOrder)
+
+        /* UPDATE BOOK QUANTITY */
+        val updateBookQuantity = foundBook.get()
+        updateBookQuantity.quantity -= 1
+        textBookRepository.save(updateBookQuantity)
+
+        orderRepository.save(newOrder)
+        return newOrder
     }
 
     override fun returnTextBook(studentId: String, textBookId: String): String {
-        TODO("Not yet implemented")
+        /* CHECK ORDER ID VALID OR NOT */
+        val foundOrderData: Order = orderRepository.getOrderByStudentIdAndTextBookId(studentId,textBookId)
+            ?: throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Given order not found.!")
+        val bookName:String = foundOrderData.textbook.name
+        foundOrderData.student = Student()
+        foundOrderData.textbook = TextBook()
+        orderRepository.save(foundOrderData)
+        orderRepository.deleteById(foundOrderData.id)
+
+
+        /* UPDATE BOOK QUANTITY */
+
+        val foundBook:Optional<TextBook> = textBookRepository.findById(textBookId)
+
+        val updateBookQuantity = foundBook.get()
+        updateBookQuantity.quantity += 1
+        textBookRepository.save(updateBookQuantity)
+
+        return "\"$bookName\" book has been return."
     }
 
-    override fun getStudentOwnBooksDetails(studentId: String): List<Order> {
-        TODO("Not yet implemented")
-    }
+    override fun getStudentBorrowedBooksDetailsByStudentId(studentId: String): List<TextBook> = orderRepository.getTextBookDetailsByStudentId(studentId)
 
-    override fun getStudentDetailsByBookId(textBookId: String): List<Student> {
-        TODO("Not yet implemented")
-    }
+    override fun getBookBorrowedStudentDetailsByBookId(textBookId: String): List<Student> = orderRepository.getStudentDetailsByTextBookId(textBookId)
 
-    override fun remainingQuantityOfBookById(textBookId: String): Order {
-        TODO("Not yet implemented")
-    }
+    override fun remainingQuantityOfBookById(textBookId: String): Int = textBookRepository.getQuantityByTextBookId(textBookId)
 }
