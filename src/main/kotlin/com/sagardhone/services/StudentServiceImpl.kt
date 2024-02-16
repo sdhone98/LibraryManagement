@@ -1,13 +1,14 @@
-package com.sagardhone.library_management.student
+package com.sagardhone.services
 
-import com.sagardhone.student.StudentRepository
+import com.sagardhone.models.Student
+import com.sagardhone.repositories.StudentRepository
 import exception.CustomException
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.util.Optional
 
 @Service
-class StudentServiceImpl(var studentRepository: StudentRepository):StudentService {
+class StudentServiceImpl(var studentRepository: StudentRepository): StudentService {
 
     override fun getAllStudentDetails(): List<Student> = studentRepository.findAll()
 

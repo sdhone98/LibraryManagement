@@ -1,9 +1,7 @@
-package com.sagardhone.order
+package com.sagardhone.models
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonManagedReference
-import com.sagardhone.library_management.student.Student
-import com.sagardhone.textBook.TextBook
 import jakarta.persistence.*
 import org.hibernate.annotations.GenericGenerator
 import java.util.*

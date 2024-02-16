@@ -1,6 +1,5 @@
-package com.sagardhone.library_management.student
+package com.sagardhone.models
 import com.fasterxml.jackson.annotation.JsonBackReference
-import com.sagardhone.department.Department
 import jakarta.persistence.*
 import jakarta.validation.constraints.Min
 import org.hibernate.annotations.GenericGenerator
@@ -37,7 +36,7 @@ data class Student (
 
     ){
 
-    constructor() : this("", "", "", 0, 0,Department())
+    constructor() : this("", "", "", 0, 0, Department())
     constructor(
         fName:String,
         lName:String,

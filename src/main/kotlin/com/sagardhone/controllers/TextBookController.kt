@@ -1,4 +1,8 @@
-package com.sagardhone.textBook
+package com.sagardhone.controllers
+import com.sagardhone.models.TextBook
+import com.sagardhone.services.TextBookService
+import com.sagardhone.validations.checkBookIds
+import com.sagardhone.validations.validateBookObject
 import exception.CustomException
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -13,7 +17,7 @@ class TextBookController (var textBookService: TextBookService) {
     fun getBookById(@PathVariable textBookId: String)= textBookService.getBookById(textBookId)
 
     @PostMapping()
-    fun addBook(@RequestBody textBook: TextBook):TextBook {
+    fun addBook(@RequestBody textBook: TextBook): TextBook {
 
         /* VALIDATE AND CHECK BOOK NAME CORRECT OR NOT */
         validateBookObject(textBook)
@@ -21,7 +25,7 @@ class TextBookController (var textBookService: TextBookService) {
     }
 
     @PutMapping("/{textBookId}")
-    fun updateBookDetails(@PathVariable textBookId: String, @RequestBody textBook: TextBook):TextBook {
+    fun updateBookDetails(@PathVariable textBookId: String, @RequestBody textBook: TextBook): TextBook {
 
         /* VALIDATE AND CHECK BOOK NAME CORRECT OR NOT */
         validateBookObject(textBook)

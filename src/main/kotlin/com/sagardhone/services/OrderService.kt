@@ -1,7 +1,8 @@
-package com.sagardhone.order
+package com.sagardhone.services
 
-import com.sagardhone.library_management.student.Student
-import com.sagardhone.textBook.TextBook
+import com.sagardhone.models.Student
+import com.sagardhone.models.Order
+import com.sagardhone.models.TextBook
 
 interface OrderService {
 

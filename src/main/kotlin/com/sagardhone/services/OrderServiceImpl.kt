@@ -1,16 +1,19 @@
-package com.sagardhone.order
+package com.sagardhone.services
 
-import com.sagardhone.library_management.student.Student
-import com.sagardhone.student.StudentRepository
-import com.sagardhone.textBook.TextBook
-import com.sagardhone.textBook.TextBookRepository
+import com.sagardhone.models.Student
+import com.sagardhone.models.Order
+import com.sagardhone.repositories.StudentRepository
+import com.sagardhone.models.TextBook
+import com.sagardhone.repositories.OrderRepository
+import com.sagardhone.repositories.TextBookRepository
 import exception.CustomException
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class OrderServiceImpl(var orderRepository: OrderRepository, var textBookRepository: TextBookRepository, var studentRepository: StudentRepository):OrderService {
+class OrderServiceImpl(var orderRepository: OrderRepository, var textBookRepository: TextBookRepository, var studentRepository: StudentRepository):
+    OrderService {
     override fun getAllOrderDetails(): List<Order> = orderRepository.findAll()
 
     override fun getOrderDetailById(orderId: String): Order {

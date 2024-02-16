@@ -1,4 +1,5 @@
-package com.sagardhone.textBook
+package com.sagardhone.validations
+import com.sagardhone.models.TextBook
 import exception.CustomException
 import org.springframework.http.HttpStatus
 

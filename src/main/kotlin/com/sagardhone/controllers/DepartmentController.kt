@@ -1,5 +1,9 @@
-package com.sagardhone.department
-import com.sagardhone.library_management.student.Student
+package com.sagardhone.controllers
+import com.sagardhone.services.DepartmentService
+import com.sagardhone.validations.checkDepartmentId
+import com.sagardhone.validations.checkDepartmentObject
+import com.sagardhone.models.Student
+import com.sagardhone.models.Department
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -9,7 +13,7 @@ class DepartmentController(var departmentService: DepartmentService) {
     fun getAllDepartments():List<Department> = departmentService.getAllDepartments()
 
     @GetMapping("/{departmentId}")
-    fun getDepartmentBYId(@PathVariable departmentId: String):Department {
+    fun getDepartmentBYId(@PathVariable departmentId: String): Department {
         /* VALIDATE DEPARTED ID*/
 
         checkDepartmentId(departmentId)

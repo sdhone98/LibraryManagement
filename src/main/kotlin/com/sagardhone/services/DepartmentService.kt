@@ -1,12 +1,13 @@
-package com.sagardhone.department
+package com.sagardhone.services
 
-import com.sagardhone.library_management.student.Student
+import com.sagardhone.models.Student
+import com.sagardhone.models.Department
 
 
 interface DepartmentService {
 
     fun getAllDepartments():List<Department>
-    fun getDepartmentBYId(departmentId:String):Department
+    fun getDepartmentBYId(departmentId:String): Department
 
     fun addDepartment(department: Department): Department
 

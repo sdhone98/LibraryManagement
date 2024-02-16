@@ -1,5 +1,6 @@
-package com.sagardhone.department
+package com.sagardhone.validations
 
+import com.sagardhone.models.Department
 import exception.CustomException
 import org.springframework.http.HttpStatus
 

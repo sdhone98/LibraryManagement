@@ -1,6 +1,6 @@
-package com.sagardhone.student
+package com.sagardhone.validations
 
-import com.sagardhone.library_management.student.Student
+import com.sagardhone.models.Student
 import exception.CustomException
 import org.springframework.http.HttpStatus
 
@@ -39,7 +39,7 @@ fun checkStudentIds(studentIds:List<String>) {
         if (!id.startsWith('S')) throw CustomException(HttpStatus.NOT_ACCEPTABLE.value(),"Given student id $id is invalid.!")
     }
 }
-fun checkStudentObject(student:Student){
+fun checkStudentObject(student: Student){
     checkStudentName(student.firstName, student.lastName)
     checkStudentAge(student.age)
     checkStudentAcademicYear(student.year)

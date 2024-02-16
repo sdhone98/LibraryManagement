@@ -1,6 +1,7 @@
-package com.sagardhone.textBook
+package com.sagardhone.services
 
-import com.sagardhone.library_management.student.Student
+import com.sagardhone.models.Student
+import com.sagardhone.models.TextBook
 
 interface TextBookService {
 

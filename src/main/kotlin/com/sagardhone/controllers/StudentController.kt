@@ -1,8 +1,11 @@
-package com.sagardhone.library_management.student
+package com.sagardhone.controllers
 
-import com.sagardhone.order.OrderService
-import com.sagardhone.student.*
-import com.sagardhone.textBook.TextBook
+import com.sagardhone.services.StudentService
+import com.sagardhone.models.Student
+import com.sagardhone.services.OrderService
+import com.sagardhone.models.TextBook
+import com.sagardhone.validations.checkStudentIds
+import com.sagardhone.validations.checkStudentObject
 import exception.CustomException
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -28,7 +31,7 @@ class StudentController(var studentService: StudentService, var orderService: Or
     }
 
     @PutMapping("/{studentId}")
-    fun updateStudentDetails(@PathVariable studentId: String, @RequestBody student: Student):Student {
+    fun updateStudentDetails(@PathVariable studentId: String, @RequestBody student: Student): Student {
 
         /* VALIDATE STUDENT OBJ */
         checkStudentObject(student)

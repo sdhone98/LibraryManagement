@@ -1,4 +1,6 @@
-package com.sagardhone.library_management.student
+package com.sagardhone.services
+
+import com.sagardhone.models.Student
 
 interface StudentService {
 

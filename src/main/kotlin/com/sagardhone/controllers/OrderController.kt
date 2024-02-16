@@ -1,7 +1,9 @@
-package com.sagardhone.order
+package com.sagardhone.controllers
 
-import com.sagardhone.library_management.student.Student
-import com.sagardhone.textBook.TextBook
+import com.sagardhone.models.Student
+import com.sagardhone.models.Order
+import com.sagardhone.models.TextBook
+import com.sagardhone.services.OrderService
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -15,7 +17,7 @@ class OrderController (var orderService: OrderService){
     fun getOrderDetailsById(@PathVariable orderID: String): Order = orderService.getOrderDetailById(orderID)
 
     @PostMapping("place_order/{studentId}/{textBookId}")
-    fun placeOrder(@PathVariable studentId: String, @PathVariable textBookId: String):Order = orderService.placeOrder(studentId, textBookId)
+    fun placeOrder(@PathVariable studentId: String, @PathVariable textBookId: String): Order = orderService.placeOrder(studentId, textBookId)
 
     @PostMapping("return_book/{studentId}/{textBookId}")
     fun returnTextBook(@PathVariable studentId: String, @PathVariable textBookId: String): String = orderService.returnTextBook(studentId, textBookId)

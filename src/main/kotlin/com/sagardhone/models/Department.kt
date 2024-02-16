@@ -1,6 +1,5 @@
-package com.sagardhone.department
+package com.sagardhone.models
 import com.fasterxml.jackson.annotation.JsonManagedReference
-import com.sagardhone.library_management.student.Student
 import jakarta.persistence.*
 import org.hibernate.annotations.GenericGenerator
 

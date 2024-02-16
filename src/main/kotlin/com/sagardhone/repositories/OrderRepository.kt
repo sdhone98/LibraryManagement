@@ -1,7 +1,8 @@
-package com.sagardhone.order
+package com.sagardhone.repositories
 
-import com.sagardhone.library_management.student.Student
-import com.sagardhone.textBook.TextBook
+import com.sagardhone.models.Student
+import com.sagardhone.models.Order
+import com.sagardhone.models.TextBook
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
@@ -14,7 +15,7 @@ interface OrderRepository:JpaRepository<Order, String>{
     fun getCountOfOrdersByStudentId(studentId: String):Int
 
     @Query("SELECT o FROM Order o WHERE o.student.id = :studentId AND o.textbook.id = :textBookId")
-    fun getOrderByStudentIdAndTextBookId(studentId: String, textBookId: String):Order?
+    fun getOrderByStudentIdAndTextBookId(studentId: String, textBookId: String): Order?
 
     @Query("SELECT o.textbook FROM Order o WHERE o.student.id = :studentId")
     fun getTextBookDetailsByStudentId(studentId: String): List<TextBook>

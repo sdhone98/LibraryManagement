@@ -1,13 +1,17 @@
-package com.sagardhone.department
-import com.sagardhone.library_management.student.Student
-import com.sagardhone.library_management.student.StudentService
+package com.sagardhone.services
+import com.sagardhone.models.Student
+import com.sagardhone.services.StudentService
+import com.sagardhone.models.Department
+import com.sagardhone.repositories.DepartmentRepository
+import com.sagardhone.services.DepartmentService
 import exception.CustomException
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class DepartmentServiceImpl(var departmentRepository: DepartmentRepository, private val studentService: StudentService): DepartmentService {
+class DepartmentServiceImpl(var departmentRepository: DepartmentRepository, private val studentService: StudentService):
+    DepartmentService {
     override fun getAllDepartments(): List<Department> = departmentRepository.findAll()
     override fun getDepartmentBYId(departmentId: String): Department {
         val foundDepartment: Optional<Department> = departmentRepository.findById(departmentId)
